@@ -1,26 +1,143 @@
 @import "tailwindcss";
 
+@theme {
+  --color-ink-50: #f7f7fb;
+  --color-ink-100: #eeeef6;
+  --color-ink-200: #dcdcea;
+  --color-ink-300: #b9b9cf;
+  --color-ink-400: #8b8bab;
+  --color-ink-500: #666685;
+  --color-ink-600: #4b4b66;
+  --color-ink-700: #35354b;
+  --color-ink-800: #1f1f30;
+  --color-ink-900: #14141f;
+  --color-ink-950: #0b0b13;
+
+  --color-brand-50: #fdf2f8;
+  --color-brand-100: #fce7f3;
+  --color-brand-200: #fbcfe8;
+  --color-brand-300: #f9a8d4;
+  --color-brand-400: #f472b6;
+  --color-brand-500: #ec4899;
+  --color-brand-600: #db2777;
+  --color-brand-700: #be185d;
+
+  --color-grape: #7c3aed;
+  --color-sun: #f97316;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-4xl: 2rem;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    @apply bg-white text-ink-800 antialiased;
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-ink-900;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      @apply bg-ink-950 text-ink-100;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility gradient-text {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-grape),
+    var(--color-brand-500) 45%,
+    var(--color-sun)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility surface {
+  @apply rounded-3xl border border-ink-200/80 bg-white shadow-sm;
+
+  @media (prefers-color-scheme: dark) {
+    @apply border-white/10 bg-white/[0.03] shadow-none;
+  }
+}
+
+@utility muted {
+  @apply text-ink-500;
+
+  @media (prefers-color-scheme: dark) {
+    @apply text-ink-300;
+  }
+}
+
+/* Soft aurora wash used behind hero sections. */
+@utility aurora {
+  background-image:
+    radial-gradient(
+      60rem 30rem at 12% -12%,
+      color-mix(in oklab, var(--color-grape) 22%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      50rem 28rem at 88% -4%,
+      color-mix(in oklab, var(--color-brand-500) 20%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      40rem 24rem at 50% 10%,
+      color-mix(in oklab, var(--color-sun) 12%, transparent),
+      transparent 65%
+    );
+}
+
+/* Hero panel: the Instagram brand ramp, blue through magenta to amber.
+   The top layer is a light scrim — it barely dims the colour but lifts white
+   text off the amber end, which is otherwise too pale to read against. */
+@utility hero-panel {
+  background-image:
+    linear-gradient(to bottom, #00000029, #0000000f 45%, #00000024),
+    linear-gradient(
+      125deg,
+      #405de6 0%,
+      #5b51d8 12%,
+      #833ab4 26%,
+      #c13584 42%,
+      #e1306c 56%,
+      #fd1d1d 70%,
+      #f56040 82%,
+      #f77737 91%,
+      #fcaf45 100%
+    );
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, currentColor 10%, transparent),
+    transparent
+  );
+  animation: shimmer 1.6s infinite;
 }

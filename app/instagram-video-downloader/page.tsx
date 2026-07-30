@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
 import { ToolPage } from "@/components/tool-page";
-import { SiteSchema } from "@/components/structured-data";
 import { toolMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 
-const tool = getTool("/");
+const tool = getTool("/instagram-video-downloader");
 
 export const metadata: Metadata = toolMetadata(tool);
 
 export default function Page() {
-  return (
-    <>
-      <SiteSchema />
-      <ToolPage tool={tool} />
-    </>
-  );
+  return <ToolPage tool={tool} />;
 }
