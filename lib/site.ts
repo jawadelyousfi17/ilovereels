@@ -1,9 +1,11 @@
 export const SITE = {
   name: "iLoveReels",
-  domain: "ilovereels.com",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ilovereels.com",
+  domain: "www.ilovereels.site",
+  // An empty env var (set-but-blank) must fall through too, or every absolute
+  // URL we build throws ERR_INVALID_URL.
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.ilovereels.site",
   tagline: "Instagram Reels Downloader",
-  email: "hello@ilovereels.com",
+  email: "hello@ilovereels.site",
   twitter: "@ilovereels",
   founded: "2024",
 } as const;
